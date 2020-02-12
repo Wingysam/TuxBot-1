@@ -16,16 +16,13 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
             embed.AddField("Current Version", Bot.Version);
-            embed.AddField("Updated To D#+ 4", "Updated to DSharpPlus 4, rewrote a lot of code");
-            embed.AddField("Updated Uptime", "Changed format in which the uptime is displayed");
-            embed.AddField("Removed Nickname", "Removed the nickname command");
-            embed.AddField("Added Activities", "Tux now displays activities");
+            embed.AddField("!d bump not found", "Fixed bug when running a disboard command and tux said it was invalid");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("d")]
-        public async Task D(CommandContext ctx)
+        public async Task D(CommandContext ctx, [RemainingText]string args)
         {
             await Task.CompletedTask;
         }

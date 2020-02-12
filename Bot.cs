@@ -20,7 +20,7 @@ namespace TuxBot
         
         public Bot()
         {
-            Version = "1.1.0";
+            Version = "1.1.1";
             Console.Title = "Tux Bot";
             prefixes = new List<string>();
         }
