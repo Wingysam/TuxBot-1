@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -14,13 +15,14 @@ namespace TuxBot
         public static string Version { get; private set; }
         public static BotConfig Config { get; private set; }
         private DiscordClient client;
-        private CommandsNextModule commands;
-        
+        private CommandsNextExtension commands;
+        private List<string> prefixes;
         
         public Bot()
         {
-            Version = "1.0.0";
+            Version = "1.1.0";
             Console.Title = "Tux Bot";
+            prefixes = new List<string>();
         }
 
         public static void Main(string[] args)
@@ -51,6 +53,7 @@ namespace TuxBot
                 File.WriteAllText(configPath, json);
             }
             Console.WriteLine("=============");
+            prefixes.Add(Config.Prefix);
             DiscordAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
@@ -60,11 +63,11 @@ namespace TuxBot
             {
                 Token = Config.Token,
                 TokenType = TokenType.Bot,
-                AutoReconnect = true
+                AutoReconnect = true,
             });
             commands = client.UseCommandsNext(new CommandsNextConfiguration
             {
-                StringPrefix = Config.Prefix,
+                StringPrefixes = prefixes,
                 EnableDms = false,
                 EnableMentionPrefix = true,
                 CaseSensitive = false,

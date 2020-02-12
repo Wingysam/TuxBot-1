@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using DSharpPlus;
+using DSharpPlus.Net.Models;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -9,7 +10,7 @@ using TuxBot.Utils;
 
 namespace TuxBot.Commands
 {
-    public class Moderation
+    public class Moderation : BaseCommandModule
     {
         [Command("addrole")]
         [RequirePermissions(Permissions.ManageRoles)]
@@ -34,7 +35,7 @@ namespace TuxBot.Commands
                 }
                 else
                 {
-                    await ctx.Guild.GrantRoleAsync(ctx.Member, role).ConfigureAwait(false);
+                    await ctx.Member.GrantRoleAsync(role).ConfigureAwait(false);
                     embed.Title = "Role Added To User";
                     embed.AddField("User", user.Mention);
                     embed.AddField("Role", role.Mention);
@@ -82,31 +83,13 @@ namespace TuxBot.Commands
             }
             else
             {
-                await ctx.Guild.RemoveMemberAsync(user, reason).ConfigureAwait(false);
+                await ctx.Member.RemoveAsync(reason).ConfigureAwait(false);
                 embed.Title = "User Kicked";
                 embed.AddField("User", user.Mention);
                 embed.AddField("Reason", reason);
                 embed.Color = ColorUtils.GetRandomColor();
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
-            await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
-        }
-
-        [Command("nickname")]
-        public async Task Nickname(CommandContext ctx, [RemainingText, Description("New nickname")]string newNickname)
-        {
-            await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
-            DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
-            string oldNickname = ctx.Member.Nickname;
-            if(String.IsNullOrEmpty(oldNickname))
-            {
-                oldNickname = ctx.Member.DisplayName;
-            }
-            await ctx.Member.ModifyAsync(nickname: newNickname).ConfigureAwait(false);
-            embed.Title = "Nickname Changed";
-            embed.AddField("Old Nickname", oldNickname);
-            embed.AddField("New Nickname", newNickname);
-            embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
@@ -127,7 +110,7 @@ namespace TuxBot.Commands
             {
                 if (user.ContainsRole(role))
                 {
-                    await ctx.Guild.RevokeRoleAsync(ctx.Member, role, "").ConfigureAwait(false);
+                    await ctx.Member.RevokeRoleAsync(role).ConfigureAwait(false);
                     embed.Title = "Role Removed From User";
                     embed.AddField("User", user.Mention);
                     embed.AddField("Role", role.Mention);

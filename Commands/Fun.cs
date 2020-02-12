@@ -7,7 +7,7 @@ using TuxBot.Utils;
 
 namespace TuxBot.Commands
 {
-    public class Fun
+    public class Fun : BaseCommandModule
     {
         [Command("coinflip")]
         public async Task CoinFlip(CommandContext ctx)

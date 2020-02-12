@@ -8,7 +8,7 @@ namespace TuxBot.Utils
     {
         public static DiscordChannel GetChannelByName(this DiscordGuild guild, string channelName, bool ignoreCase = true)
         {
-            foreach (DiscordChannel channel in guild.Channels)
+            foreach (DiscordChannel channel in guild.Channels.Values)
             {
                 if (ignoreCase)
                 {
@@ -31,7 +31,7 @@ namespace TuxBot.Utils
         public static IReadOnlyList<DiscordChannel> GetCategories(this DiscordGuild guild)
         {
             List<DiscordChannel> categories = new List<DiscordChannel>();
-            foreach (DiscordChannel channel in guild.Channels)
+            foreach (DiscordChannel channel in guild.Channels.Values)
             {
                 if (channel.Type == ChannelType.Category)
                 {
@@ -44,7 +44,7 @@ namespace TuxBot.Utils
         public static IReadOnlyList<DiscordChannel> GetTextChannels(this DiscordGuild guild)
         {
             List<DiscordChannel> textChannels = new List<DiscordChannel>();
-            foreach (DiscordChannel channel in guild.Channels)
+            foreach (DiscordChannel channel in guild.Channels.Values)
             {
                 if(channel.Type == ChannelType.Text)
                 {
@@ -57,7 +57,7 @@ namespace TuxBot.Utils
         public static IReadOnlyList<DiscordChannel> GetVoiceChannels(this DiscordGuild guild)
         {
             List<DiscordChannel> voiceChannels = new List<DiscordChannel>();
-            foreach (DiscordChannel channel in guild.Channels)
+            foreach (DiscordChannel channel in guild.Channels.Values)
             {
                 if (channel.Type == ChannelType.Voice)
                 {

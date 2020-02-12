@@ -7,7 +7,7 @@ using TuxBot.Utils;
 
 namespace TuxBot.Commands
 {
-    public class General
+    public class General : BaseCommandModule
     {
         [Command("changelog")]
         public async Task Changelog(CommandContext ctx)
@@ -16,10 +16,10 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
             embed.AddField("Current Version", Bot.Version);
-            embed.AddField("Complete Rewrite", "Tux is now written in C# using DSharpPlus");
-            embed.AddField("New OS Commands", "All OS commands are now their own command, including linux distros. I.E to get the Ubuntu role you use `!ubuntu`");
-            embed.AddField("Removed Muted", "Removed muted role and commands");
-            embed.AddField("Mention Prefix", "You can now use bot commands by mentioning the bot instead of using the prefix");
+            embed.AddField("Updated To D#+ 4", "Updated to DSharpPlus 4, rewrote a lot of code");
+            embed.AddField("Updated Uptime", "Changed format in which the uptime is displayed");
+            embed.AddField("Removed Nickname", "Removed the nickname command");
+            embed.AddField("Added Activities", "Tux now displays activities");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
@@ -64,7 +64,6 @@ namespace TuxBot.Commands
             string mod = "`addrole <@User> <Role Name>` ~ Adds the given role to the pinged user" +
                 "\n`ban <@User> <Reason>` ~ Bans the pinged user for the given reason" +
                 "\n`kick <@User> <Reason>` ~ Kicks the pinged user for the given reason" +
-                "\n`nickname <New Nickname>` ~ Changes your nickname" +
                 "\n`removerole <@User> <Role Name>` ~ Removes the given role from the pinged user" +
                 "\n`rm <# of Messages>` ~ Deletes the number of messages provided" +
                 "\n`warn <@User> <Reason>` ~ Warns the pinged user for the given reason";
@@ -137,7 +136,7 @@ namespace TuxBot.Commands
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.Title = "Role Info";
-            foreach(DiscordRole role in ctx.Guild.Roles)
+            foreach(DiscordRole role in ctx.Guild.Roles.Values)
             {
                 int memberCount = 0;
                 if(role.Name == "@everyone")
@@ -146,7 +145,7 @@ namespace TuxBot.Commands
                 }
                 else
                 {
-                    foreach (DiscordMember member in ctx.Guild.Members)
+                    foreach (DiscordMember member in ctx.Guild.Members.Values)
                     {
                         if (member.ContainsRole(role))
                         {
@@ -218,7 +217,7 @@ namespace TuxBot.Commands
             }
             else
             {
-                await ctx.Guild.GrantRoleAsync(ctx.Member, verifiedRole).ConfigureAwait(false);
+                await ctx.Member.GrantRoleAsync(verifiedRole).ConfigureAwait(false);
                 embed.Title = "Verified!";
                 embed.Description = $"{ctx.Member.Mention} is now verified";
                 embed.Color = ColorUtils.GetRandomColor();

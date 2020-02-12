@@ -24,7 +24,7 @@ namespace TuxBot.Commands
         Windows
     };
 
-    public class OSDistro
+    public class OSDistro : BaseCommandModule
     {
         private async Task GetOSRole(CommandContext ctx, OS os)
         {
@@ -85,7 +85,7 @@ namespace TuxBot.Commands
                 embed.AddField("User", ctx.Member.Mention);
                 embed.AddField("Role", osRole.Mention);
                 embed.Color = ColorUtils.GetRandomColor();
-                await ctx.Guild.RevokeRoleAsync(ctx.Member, osRole, "").ConfigureAwait(false);
+                await ctx.Member.RevokeRoleAsync(osRole).ConfigureAwait(false);
             }
             else
             {
@@ -93,7 +93,7 @@ namespace TuxBot.Commands
                 embed.AddField("User", ctx.Member.Mention);
                 embed.AddField("Role", osRole.Mention);
                 embed.Color = ColorUtils.GetRandomColor();
-                await ctx.Guild.GrantRoleAsync(ctx.Member, osRole).ConfigureAwait(false);
+                await ctx.Member.GrantRoleAsync(osRole).ConfigureAwait(false);
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }

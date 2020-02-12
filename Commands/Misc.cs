@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace TuxBot.Commands
 {
-    public class Misc
+    public class Misc : BaseCommandModule
     {
         [Command("ping")]
         public async Task Ping(CommandContext ctx)
@@ -53,7 +53,7 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.Title = "Uptime";
             TimeSpan uptime = DateTime.UtcNow - Process.GetCurrentProcess().StartTime.ToUniversalTime();
-            embed.Description = String.Format("{0:00}:{1:00}:{2:00}", uptime.Hours, uptime.Minutes, uptime.Seconds);
+            embed.Description = String.Format("{0:00} hours {1:00} minutes {2:00} seconds", uptime.Hours, uptime.Minutes, uptime.Seconds);
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }

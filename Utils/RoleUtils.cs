@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using DSharpPlus.Entities;
 
 namespace TuxBot.Utils
@@ -7,7 +7,7 @@ namespace TuxBot.Utils
     {
         public static DiscordRole GetRoleByName(this DiscordGuild guild, string roleName, bool ignoreCase = true)
         {
-            foreach (DiscordRole role in guild.Roles)
+            foreach (DiscordRole role in guild.Roles.Values)
             {
                 if(ignoreCase)
                 {
@@ -41,19 +41,16 @@ namespace TuxBot.Utils
 
         public static string GetRoleList(this DiscordMember member)
         {
-            List<DiscordRole> roles = new List<DiscordRole>();
             string roleList = "";
+            int i = 0;
             foreach(DiscordRole role in member.Roles)
             {
-                roles.Add(role);
-            }
-            for (int i = 0; i < roles.Count; i++)
-            {
-                roleList += roles[i].Name;
-                if (i != roles.Count - 1)
+                roleList += role.Name;
+                if (i != member.Roles.Count() - 1)
                 {
                     roleList += ", ";
                 }
+                i++;
             }
             return roleList;
         }
@@ -61,13 +58,15 @@ namespace TuxBot.Utils
         public static string GetRoleList(this DiscordGuild guild)
         {
             string roleList = "";
-            for (int i = 0; i < guild.Roles.Count; i++)
+            int i = 0;
+            foreach (DiscordRole role in guild.Roles.Values)
             {
-                roleList += guild.Roles[i].Name;
+                roleList += role.Name;
                 if (i != guild.Roles.Count - 1)
                 {
                     roleList += ", ";
                 }
+                i++;
             }
             return roleList;
         }
