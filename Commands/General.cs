@@ -16,7 +16,8 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
             embed.AddField("Current Version", Bot.Version);
-            embed.AddField("!d bump not found", "Fixed bug when running a disboard command and tux said it was invalid");
+            embed.AddField("Role Logs", "Tux now logs when users give themselves roles");
+            embed.AddField("Poll Logs", "Tux now logs when users create a poll");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }

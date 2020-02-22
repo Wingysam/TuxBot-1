@@ -96,6 +96,9 @@ namespace TuxBot.Commands
                 await ctx.Member.GrantRoleAsync(osRole).ConfigureAwait(false);
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("android")]

@@ -27,7 +27,13 @@ namespace TuxBot.Commands
             }
             else
             {
-                if (user.ContainsRole(role))
+                if(!ctx.Member.IsOwner && (role == ctx.Guild.GetRoleByName("admin") || role == ctx.Guild.GetRoleByName("staff")))
+                {
+                    embed.Title = "Error";
+                    embed.AddField("Invalid Permissions", "Only the server admin can add the admin/staff roles");
+                    embed.Color = DiscordColor.Red;
+                }
+                else if (user.ContainsRole(role))
                 {
                     embed.Title = "Error";
                     embed.AddField("User Contains Role", $"{user.Mention} already contains the role {role.Mention}");
@@ -43,6 +49,9 @@ namespace TuxBot.Commands
                 }
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("ban")]
@@ -67,6 +76,9 @@ namespace TuxBot.Commands
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("kick")]
@@ -91,6 +103,9 @@ namespace TuxBot.Commands
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("removerole")]
@@ -108,7 +123,13 @@ namespace TuxBot.Commands
             }
             else
             {
-                if (user.ContainsRole(role))
+                if (!ctx.Member.IsOwner && (role == ctx.Guild.GetRoleByName("admin") || role == ctx.Guild.GetRoleByName("staff")))
+                {
+                    embed.Title = "Error";
+                    embed.AddField("Invalid Permissions", "Only the server admin can remove the admin/staff roles");
+                    embed.Color = DiscordColor.Red;
+                }
+                else if (user.ContainsRole(role))
                 {
                     await ctx.Member.RevokeRoleAsync(role).ConfigureAwait(false);
                     embed.Title = "Role Removed From User";
@@ -124,6 +145,9 @@ namespace TuxBot.Commands
                 }
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("rm")]
@@ -148,6 +172,10 @@ namespace TuxBot.Commands
                 embed.Color = ColorUtils.GetRandomColor();
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Channel", ctx.Channel.Mention);
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("warn")]
@@ -171,6 +199,9 @@ namespace TuxBot.Commands
                 await ctx.Message.DeleteAsync().ConfigureAwait(false);
             }
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
     }
 }

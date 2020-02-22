@@ -42,7 +42,12 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.Description = phrase;
             embed.Color = ColorUtils.GetRandomColor();
+            await ctx.Message.DeleteAsync().ConfigureAwait(false);
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.Title = "Echo";
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
 
         [Command("poll")]
@@ -53,9 +58,13 @@ namespace TuxBot.Commands
             embed.Title = "Poll";
             embed.AddField("Question", question);
             embed.Color = ColorUtils.GetRandomColor();
+            await ctx.Message.DeleteAsync().ConfigureAwait(false);
             DiscordMessage msg = await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
             await msg.CreateReactionAsync(DiscordEmoji.FromUnicode("👍")).ConfigureAwait(false);
             await msg.CreateReactionAsync(DiscordEmoji.FromUnicode("👎")).ConfigureAwait(false);
+            DiscordChannel logChannel = ctx.Guild.GetChannelByName("tux-logs");
+            embed.AddField("Ran By", ctx.Member.Mention);
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
     }
 }
