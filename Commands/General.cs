@@ -16,8 +16,10 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
             embed.AddField("Current Version", Bot.Version);
-            embed.AddField("Role Logs", "Tux now logs when users give themselves roles");
-            embed.AddField("Poll Logs", "Tux now logs when users create a poll");
+            embed.AddField("Added Message Logs", "Tux now logs when a message is updated or deleted");
+            embed.AddField("Improved Logging", "Improved current logs");
+            embed.AddField("Addrole and Removerole Fix", "Fixed issue where the addrole and removerole effected the message author and not the pinged user");
+            embed.AddField("Whois Fix", "Fixed issue where whois command didn't work if pinged member had no nickname");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
@@ -253,7 +255,14 @@ namespace TuxBot.Commands
             embed.WithAuthor(user.Username, null, user.AvatarUrl);
             embed.AddField("User Tag", user.Mention, true);
             embed.AddField("Real Name", user.Username, true);
-            embed.AddField("Nickname", user.Nickname, true);
+            try
+            {
+                embed.AddField("Nickname", user.Nickname, true);
+            }
+            catch
+            {
+                embed.AddField("Nickname", "N/A", true);
+            }
             if(user.Presence == null)
             {
                 embed.AddField("Status", "Offline", true);

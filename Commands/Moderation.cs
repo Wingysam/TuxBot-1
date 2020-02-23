@@ -41,7 +41,7 @@ namespace TuxBot.Commands
                 }
                 else
                 {
-                    await ctx.Member.GrantRoleAsync(role).ConfigureAwait(false);
+                    await user.GrantRoleAsync(role).ConfigureAwait(false);
                     embed.Title = "Role Added To User";
                     embed.AddField("User", user.Mention);
                     embed.AddField("Role", role.Mention);
@@ -131,7 +131,7 @@ namespace TuxBot.Commands
                 }
                 else if (user.ContainsRole(role))
                 {
-                    await ctx.Member.RevokeRoleAsync(role).ConfigureAwait(false);
+                    await user.RevokeRoleAsync(role).ConfigureAwait(false);
                     embed.Title = "Role Removed From User";
                     embed.AddField("User", user.Mention);
                     embed.AddField("Role", role.Mention);

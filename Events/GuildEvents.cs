@@ -39,5 +39,30 @@ namespace TuxBot.Events
             embed.Color = ColorUtils.GetRandomColor();
             await leaveChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
+
+        public static async Task MessageDeleted(MessageDeleteEventArgs args)
+        {
+            DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
+            DiscordChannel logChannel = args.Guild.GetChannelByName("tux-logs");
+            await logChannel.TriggerTypingAsync().ConfigureAwait(false);
+            embed.Title = "Message Deleted";
+            embed.AddField("Message", args.Message.Content);
+            embed.AddField("Author", args.Message.Author.Mention);
+            embed.Color = ColorUtils.GetRandomColor();
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+        }
+
+        public static async Task MessageUpdated(MessageUpdateEventArgs args)
+        {
+            DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
+            DiscordChannel logChannel = args.Guild.GetChannelByName("tux-logs");
+            await logChannel.TriggerTypingAsync().ConfigureAwait(false);
+            embed.Title = "Message Updated";
+            embed.AddField("Old Message", args.MessageBefore.Content);
+            embed.AddField("Updated Message", args.Message.Content);
+            embed.AddField("Author", args.Message.Author.Mention);
+            embed.Color = ColorUtils.GetRandomColor();
+            await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+        }
     }
 }

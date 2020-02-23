@@ -20,7 +20,7 @@ namespace TuxBot
         
         public Bot()
         {
-            Version = "1.3.0";
+            Version = "1.4.0";
             Console.Title = "Tux Bot";
             prefixes = new List<string>();
         }
@@ -81,6 +81,8 @@ namespace TuxBot
             client.Ready += BotEvents.Ready;
             client.GuildMemberAdded += GuildEvents.GuildMemberAdded;
             client.GuildMemberRemoved += GuildEvents.GuildMemberRemoved;
+            client.MessageDeleted += GuildEvents.MessageDeleted;
+            client.MessageUpdated += GuildEvents.MessageUpdated;
             commands.CommandErrored += CommandEvents.CommandErrored;
             await client.ConnectAsync();
             await Task.Delay(-1);
