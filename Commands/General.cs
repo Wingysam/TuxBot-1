@@ -16,10 +16,7 @@ namespace TuxBot.Commands
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
             embed.AddField("Current Version", Bot.Version);
-            embed.AddField("Added Message Logs", "Tux now logs when a message is updated or deleted");
-            embed.AddField("Improved Logging", "Improved current logs");
-            embed.AddField("Addrole and Removerole Fix", "Fixed issue where the addrole and removerole effected the message author and not the pinged user");
-            embed.AddField("Whois Fix", "Fixed issue where whois command didn't work if pinged member had no nickname");
+            embed.AddField("Channel To Logs", "Message Deleted and Updated logs now show the channel that the event occured");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }

@@ -47,7 +47,8 @@ namespace TuxBot.Events
             await logChannel.TriggerTypingAsync().ConfigureAwait(false);
             embed.Title = "Message Deleted";
             embed.AddField("Message", args.Message.Content);
-            embed.AddField("Author", args.Message.Author.Mention);
+            embed.AddField("Author", args.Message.Author.Mention, true);
+            embed.AddField("Channel", args.Channel.Mention, true);
             embed.Color = ColorUtils.GetRandomColor();
             await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
@@ -60,7 +61,8 @@ namespace TuxBot.Events
             embed.Title = "Message Updated";
             embed.AddField("Old Message", args.MessageBefore.Content);
             embed.AddField("Updated Message", args.Message.Content);
-            embed.AddField("Author", args.Message.Author.Mention);
+            embed.AddField("Author", args.Message.Author.Mention, true);
+            embed.AddField("Channel", args.Channel.Mention, true);
             embed.Color = ColorUtils.GetRandomColor();
             await logChannel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
