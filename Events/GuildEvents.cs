@@ -55,11 +55,22 @@ namespace TuxBot.Events
 
         public static async Task MessageUpdated(MessageUpdateEventArgs args)
         {
+            if (args.MessageBefore.Content == args.Message.Content)
+            {
+                return;
+            }
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             DiscordChannel logChannel = args.Guild.GetChannelByName("tux-logs");
             await logChannel.TriggerTypingAsync().ConfigureAwait(false);
             embed.Title = "Message Updated";
-            embed.AddField("Old Message", args.MessageBefore.Content);
+            if(args.MessageBefore.Content == null)
+            {
+                embed.AddField("Old Message", "*Not in cache*");
+            }
+            else
+            {
+                embed.AddField("Old Message", args.MessageBefore.Content);
+            }
             embed.AddField("Updated Message", args.Message.Content);
             embed.AddField("Author", args.Message.Author.Mention, true);
             embed.AddField("Channel", args.Channel.Mention, true);

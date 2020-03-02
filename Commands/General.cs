@@ -15,8 +15,8 @@ namespace TuxBot.Commands
             await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
             DiscordEmbedBuilder embed = new DiscordEmbedBuilder();
             embed.WithAuthor("Tux Changelog", null, ctx.Guild.IconUrl);
-            embed.AddField("Current Version", Bot.Version);
-            embed.AddField("Channel To Logs", "Message Deleted and Updated logs now show the channel that the event occured");
+            embed.AddField("Updated API", "Updated DSharpPlus dependences");
+            embed.AddField("Fixed Message Updated Log", "Fixed an issue where tux would log a message updated when discord added an embed to the message");
             embed.Color = ColorUtils.GetRandomColor();
             await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
         }
